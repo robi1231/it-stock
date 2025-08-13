@@ -58,10 +58,15 @@
   </div>
 
   <div class="dashboard-box" id="dashboard" style="display: none;">
+    <div style="text-align: right;">
+      <button onclick="logoutUser()" style="background-color:#f44336; color:white; border:none; padding:7px 7px; font-size:10px; border-radius:3px; cursor:pointer;">
+        Logout
+      </button>
+    </div>
     <h4>Dashboard</h4>
     <button class="btn btn-dashboard" onclick="openSheet('https://docs.google.com/spreadsheets/d/1jUSgjlznxDFCSCnsd3FX4NPShDdnPTMhSMJuN_p74V0')">Kaspersky Stock</button>
     <button class="btn btn-dashboard" onclick="openSheet('https://docs.google.com/document/d/1jCOGibq1VOw9rxeUAFZEvaTQfCoHrKZ-')">MFCIB LIST</button>
-	 <button class="btn btn-dashboard" onclick="openSheet('https://docs.google.com/document/d/1BZSVw173a-lfUotKz6TaHzvy26qZvSK-e0NXkTNfPEc')">Branch Email ID</button>
+    <button class="btn btn-dashboard" onclick="openSheet('https://docs.google.com/document/d/1BZSVw173a-lfUotKz6TaHzvy26qZvSK-e0NXkTNfPEc')">Branch Email ID</button>
   </div>
 </div>
 
@@ -81,9 +86,15 @@
   function openSheet(url) {
     window.open(url, "_blank");
   }
-</script>
 
+  function logoutUser() {
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("loginContainer").style.display = "block";
+
+    // Clear input fields
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+  }
+</script>
 </body>
 </html>
-
-
