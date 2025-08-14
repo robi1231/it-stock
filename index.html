@@ -51,7 +51,15 @@
 
 <div class="center-box">
   <div class="login-box" id="loginContainer">
-    <h2>Admin Login</h2>
+    
+	<!-- Logo -->
+   <div style="text-align:center; margin-bottom:15px;">
+   <img src="logo.png" 
+       alt="Logo" 
+       style="width:100px; height:100px">
+   </div>
+
+    <h2>Admin IT</h2>
     <input type="text" id="username" class="form-control" placeholder="Username" />
     <input type="password" id="password" class="form-control" placeholder="Password" />
     <button class="btn btn-login" onclick="handleLogin()">Login</button>
@@ -64,20 +72,58 @@
       </button>
     </div>
     <h4>Dashboard</h4>
-    <button class="btn btn-dashboard" onclick="openSheet('https://docs.google.com/spreadsheets/d/1jUSgjlznxDFCSCnsd3FX4NPShDdnPTMhSMJuN_p74V0')">Kaspersky Stock</button>
-    <button class="btn btn-dashboard" onclick="openSheet('https://docs.google.com/document/d/1jCOGibq1VOw9rxeUAFZEvaTQfCoHrKZ-')">MFCIB LIST</button>
-    <button class="btn btn-dashboard" onclick="openSheet('https://docs.google.com/document/d/1BZSVw173a-lfUotKz6TaHzvy26qZvSK-e0NXkTNfPEc')">Branch Email ID</button>
+    <button id="btnKaspersky" class="btn btn-dashboard" style="display:none;" onclick="openSheet('https://docs.google.com/spreadsheets/d/1jUSgjlznxDFCSCnsd3FX4NPShDdnPTMhSMJuN_p74V0')">Kaspersky Stock</button>
+    <button id="btnMfcib" class="btn btn-dashboard" style="display:none;" onclick="openSheet('https://docs.google.com/document/d/1jCOGibq1VOw9rxeUAFZEvaTQfCoHrKZ-')">MFCIB LIST</button>
+    <button id="btnBranch" class="btn btn-dashboard" style="display:none;" onclick="openSheet('https://docs.google.com/document/d/1BZSVw173a-lfUotKz6TaHzvy26qZvSK-e0NXkTNfPEc')">Branch Email ID</button>
+    <button id="btnCctvadmin" class="btn btn-dashboard" style="display:none;" onclick="openSheet('http://202.53.165.214:8482')">CCTV ADMIN</button>
+    <button id="btnIpphone" class="btn btn-dashboard" style="display:none;" onclick="openSheet('http://202.53.165.214:8483')">IP Phone</button>
+    <button id="btnNasadmin" class="btn btn-dashboard" style="display:none;" onclick="openSheet('http://202.53.165.214:8485')">NAS ADMIN</button>
   </div>
 </div>
 
 <script>
+  // =======================
+  // MANUAL USER LIST
+  // =======================
+  const users = [
+    {
+      username: "robi",
+      password: "robi123",
+      access: ["kasper", "mfcib", "branch", "cctvadmin", "ipphone", "nasadmin"]  // full access
+    },
+    {
+      username: "admin",
+      password: "robi123",
+      access: ["kasper", "mfcib", "branch"]   // সীমিত access
+    }
+  ];
+
   function handleLogin() {
     const user = document.getElementById("username").value.trim();
     const pass = document.getElementById("password").value.trim();
 
-    if (user === "admin" && pass === "robi123") {
+    const loggedUser = users.find(u => u.username === user && u.password === pass);
+
+    if (loggedUser) {
       document.getElementById("loginContainer").style.display = "none";
       document.getElementById("dashboard").style.display = "block";
+
+      // reset all buttons hidden
+      document.getElementById("btnKaspersky").style.display = "none";
+      document.getElementById("btnMfcib").style.display = "none";
+      document.getElementById("btnBranch").style.display = "none";
+      document.getElementById("btnCctvadmin").style.display = "none";
+      document.getElementById("btnIpphone").style.display = "none";
+      document.getElementById("btnNasadmin").style.display = "none";
+
+      // show based on access
+      if (loggedUser.access.includes("kasper")) document.getElementById("btnKaspersky").style.display = "block";
+      if (loggedUser.access.includes("mfcib")) document.getElementById("btnMfcib").style.display = "block";
+      if (loggedUser.access.includes("branch")) document.getElementById("btnBranch").style.display = "block";
+      if (loggedUser.access.includes("cctvadmin")) document.getElementById("btnCctvadmin").style.display = "block";
+      if (loggedUser.access.includes("ipphone")) document.getElementById("btnIpphone").style.display = "block";
+      if (loggedUser.access.includes("nasadmin")) document.getElementById("btnNasadmin").style.display = "block";
+
     } else {
       alert("❌ Invalid credentials. Try again.");
     }
@@ -90,8 +136,6 @@
   function logoutUser() {
     document.getElementById("dashboard").style.display = "none";
     document.getElementById("loginContainer").style.display = "block";
-
-    // Clear input fields
     document.getElementById("username").value = "";
     document.getElementById("password").value = "";
   }
